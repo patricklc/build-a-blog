@@ -55,6 +55,14 @@ class MainPage(MainHandler):
     def get(self):
         self.render_front()
 
+
+class NewPost(MainHandler):
+    def render_newpost(self, title="", blog="", error=""):
+        self.render("newpost.html", title=title, blog=blog, error=error)
+
+    def get(self):
+        self.render_newpost()
+
     def post(self):
         title = self.request.get('title')
         blog = self.request.get('blog')
@@ -65,9 +73,12 @@ class MainPage(MainHandler):
 
             self.redirect("/blog")
         else:
-            error = "We need both a title and a blog post!"
-            self.render_front(title, blog, error)
+            error = "Please submit both a title and a blog post!"
+            self.render_newpost(title, blog, error)
+
+
 
 app = webapp2.WSGIApplication([
-    ('/blog', MainPage)
+    ('/blog', MainPage),
+    ('/newpost', NewPost)
 ], debug=True)
