@@ -47,7 +47,8 @@ class Blog(db.Model):
 class MainPage(MainHandler):
     def render_front(self, title="", blog="",error=""):
         blogs = db.GqlQuery("SELECT * FROM Blog "
-                            "ORDER BY created DESC ")
+                            "ORDER BY created DESC "
+                            "LIMIT 5 ")
 
         self.render("front.html", title=title, blog=blog, error=error, blogs=blogs)
 
@@ -62,11 +63,11 @@ class MainPage(MainHandler):
             a = Blog(title=title, blog=blog)
             a.put()
 
-            self.redirect("/")
+            self.redirect("/blog")
         else:
             error = "We need both a title and a blog post!"
             self.render_front(title, blog, error)
 
 app = webapp2.WSGIApplication([
-    ('/', MainPage)
+    ('/blog', MainPage)
 ], debug=True)
