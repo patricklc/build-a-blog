@@ -1,78 +1,7 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Build-a-blog</title>
-    </head>
+{% extends "base.html" %}
 
-    <style type = "text/css">
-        body {
-            font-family: sans-serif;
-            width: 800px;
-            margin: 0 auto;
-            padding: 10px;
-        }
+{% block content %}
 
-        /*.error {
-            color: red;
-        }
-
-        label {
-            display: block;
-            font-size: 20px;
-        }
-
-        input[type=text] {
-            width: 400px;
-            font-size: 20px;
-            padding: 2px;
-        }
-
-        textarea {
-            width: 400px;
-            height: 200px;
-            font-size: 17px;
-            font-family: monospace;
-        }
-
-        input[type=submit] {
-            font-size: 24px;
-        }*/
-
-        hr {
-            margin: 20px auto;
-        }
-
-        .blog + .blog {
-            margin-top: 20px;
-        }
-
-        .blog-title {
-            font-weight: bold;
-            font-size: 20px;
-        }
-
-        .blog-body {
-            margin: 0;
-            font-size: 17px;
-        }
-    </style>
-    <body>
-        <h1>blog!</h1>
-
-        <!-- <form method="post">
-            <label>
-                <div>title</div>
-                <input type='text' name='title' value="{{title}}">
-            </label>
-
-            <label>
-                <div>blog</div>
-                <textarea name='blog'>{{blog}}</textarea>
-            </label>
-
-            <div class='error'>{{error}}</div>
-            <input type='submit'>
-        </form>*/ -->
         <hr>
         {% for blog in blogs %}
             <div class = "blog">
@@ -81,5 +10,4 @@
             </div>
         {% endfor %}
 
-    </body>
-</html>
+{% endblock %}
