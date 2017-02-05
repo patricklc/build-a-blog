@@ -1,13 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <!-- {% for posting in blogs %}
-        <div class = "blog">
-            <div class = "blog-title">{{posting.title}}
-            <pre class="blog-body">{{posting.blog}}</pre>
-        </div>
-    {% endfor %} -->
-    <span style="background-color:tomato">{{ p.title }}</span>
-    <span style="background-color:tomato">{{ p.blog }}</span>
-    {{content}}
+    <div class = "blog">
+        <div class = "blog-title">{{ p.title }}</span>
+        <pre class="blog-body">{{p.blog}}</pre>
+    </div>
 {% endblock %}

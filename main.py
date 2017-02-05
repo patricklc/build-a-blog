@@ -25,6 +25,8 @@ template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
                                autoescape = True)
 
+def get_posts(limit, offset):
+
 class MainHandler(webapp2.RequestHandler):
     def write(self, *a, **kw):
         self.response.write(*a, **kw)
@@ -72,7 +74,7 @@ class NewPost(MainHandler):
             self.render_newpost(title, blog, error)
 
 class ViewPostHandler(webapp2.RequestHandler):
-    # def render_plink(self, title="", blog="", p=""):
+    # def render_plnk(self, title="", blog="", p=""):
     #     self.render("plink.html", title=title, blog=blog, p=p)
 
     def get(self, id):

@@ -5,6 +5,19 @@
     </head>
 
     <style type = "text/css">
+        ul {
+            margin-left: -40px;
+        }
+
+        .nav {
+            display: inline-block;
+        }
+
+        li:first-child:after {
+            content: "|";
+            padding-left: 5px;
+        }
+
         body {
             font-family: sans-serif;
             width: 800px;
@@ -54,9 +67,14 @@
         .blog-body {
             margin: 0;
             font-size: 17px;
+            padding-top: 10px;
         }
     </style>
         <body>
+        <ul>
+            <li class = "nav"><a href="/blog">home</a></li>
+            <li class = "nav"><a href="/newpost"><p class="nav">new post</a></li>
+        </ul>
             <h1>blog!</h1>
             {% block content %}
             {% endblock %}
