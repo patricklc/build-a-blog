@@ -3,7 +3,7 @@
 {% block content %}
 
         <hr>
-        {% for posting in blogs %}
+        {% for posting in gp %}
             <div class = "blog">
                 <div class = "blog-title"><a href="blog/{{posting.key().id()}}">{{posting.title}}</a>
                 <pre class="blog-body">{{posting.blog}}</pre>

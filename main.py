@@ -20,12 +20,13 @@ from google.appengine.ext import db
 
 import jinja2
 import webapp2
+from google.appengine.api import urlfetch
+import urllib
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
                                autoescape = True)
 
-def get_posts(limit, offset):
 
 class MainHandler(webapp2.RequestHandler):
     def write(self, *a, **kw):
@@ -43,16 +44,32 @@ class Posting(db.Model):
     blog = db.TextProperty(required = True)
     created = db.DateTimeProperty(auto_now_add = True)
 
+def get_posts(limit,offset):
+    limit = int(limit)
+    offset= int(offset)
+    blogs = db.GqlQuery("SELECT * FROM Posting "
+                        "ORDER BY created DESC "
+                        "LIMIT {limit} OFFSET {offset}".format(limit=limit, offset=offset))
+    return blogs
+
 class MainPage(MainHandler):
-    def render_front(self, title="", blog="", error=""):
-        blogs = db.GqlQuery("SELECT * FROM Posting "
-                            "ORDER BY created DESC "
-                            "LIMIT 5 ")
+    def render_front(self, title="", blog="", gp=""):
+        # blogs = db.GqlQuery("SELECT * FROM Posting "
+        #                     "ORDER BY created DESC "
+        #                    "LIMIT 5 ")
 
-        self.render("front.html", title=title, blog=blog, error=error, blogs=blogs)
+        self.render("front.html", title=title, blog=blog, gp=gp)
 
-    def get(self):
-        self.render_front()
+    def get(self, default_value="url"):
+        url = self.request.url
+        if url == "http://localhost:9080/blog?page=1":
+            self.render_front(gp = get_posts(5,0))
+        elif url == "http://localhost:9080/blog?page=2":
+            self.render_front(gp = get_posts(5,5))
+        elif url == "http://localhost:9080/blog?page=3":
+            self.render_front(gp= get_posts(5,10))
+        else:
+            self.error(404)
 
 class NewPost(MainHandler):
     def render_newpost(self, title="", blog="", error=""):
@@ -82,6 +99,7 @@ class ViewPostHandler(webapp2.RequestHandler):
         t = jinja_env.get_template("plnk.html")
         content = t.render(p=p)
         self.response.write(content)
+
 
 app = webapp2.WSGIApplication([
     ('/blog', MainPage),
