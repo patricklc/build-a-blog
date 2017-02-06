@@ -60,14 +60,14 @@ class MainPage(MainHandler):
 
         self.render("front.html", title=title, blog=blog, gp=gp)
 
-    def get(self, default_value="url"):
+    def get(self):
         url = self.request.url
-        if url == "http://localhost:9080/blog?page=1":
-            self.render_front(gp = get_posts(5,0))
-        elif url == "http://localhost:9080/blog?page=2":
-            self.render_front(gp = get_posts(5,5))
-        elif url == "http://localhost:9080/blog?page=3":
-            self.render_front(gp= get_posts(5,10))
+        num = url[-1]
+        offset = (int(num) - 1) * 5
+        limit = 5
+        count = Posting.all().count()
+        if num.isdigit() and int(num) <= count/limit and url == "http://localhost:9080/blog?page={0}".format(num):
+            self.render_front(gp = get_posts(limit,offset))
         else:
             self.error(404)
 
