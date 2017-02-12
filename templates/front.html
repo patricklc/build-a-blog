@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+        
         <hr>
         {% for posting in gp %}
             <div class = "blog">
@@ -10,7 +10,16 @@
             </div>
         {% endfor %}
 
-        <a href={{prev_url}}><p id = "line">&lt;prev</p></a>
-        <p>next&gt;</p>
+        {% if page in prev_list %}
+            <a href={{prev_url}}><p id = "line">&lt;prev</p></a>
+        {% else %}
+            <p id = "line" class = "white">&lt;prev</p>
+        {% endif %}
+
+        {% if page in nex_list %}
+            <a href={{nex_url}}><p>next&gt;</p></a>
+        {% else %}
+            <p class = "white">next&gt;</p>
+        {% endif %}
 
 {% endblock %}

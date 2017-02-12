@@ -53,31 +53,47 @@ def get_posts(limit,offset):
     return blogs
 
 class MainPage(MainHandler):
-    def render_front(self, title="", blog="", gp="", prev_url="", prev=""):
-        # blogs = db.GqlQuery("SELECT * FROM Posting "
-        #                     "ORDER BY created DESC "
-        #                    "LIMIT 5 ")
-
-        self.render("front.html", title=title, blog=blog, gp=gp, prev_url=prev_url, prev=prev)
+    def render_front(self, title="", blog="", gp="", prev_url="",
+                    prev_list="", page="", nex_url="", nex_list="",
+                    last_nex=""):
+        self.render("front.html", title=title, blog=blog, gp=gp,
+                    prev_url=prev_url, prev_list=prev_list, page=page,
+                    nex_url=nex_url, nex_list=nex_list, last_nex=last_nex)
 
     def get(self):
+        # url = self.request.url
+        url = self.request.url
+        n = url[-1]
+        page = ""
+        if n.isdigit():
+            page = int(self.request.GET['page'])
+        else:
+            page = int(1)
 
-        page = int(self.request.GET['page'])
+        # if url == "http://localhost:9080/blog":
+        #     self
         limit = 5
         offset = (page - 1) * limit
-
         count = Posting.all().count()
         gp = get_posts(limit, offset)
-        # prev = str(page - 1)
-        # prev = offset - limit
-        # prev_url = "http://localhost:9080/blog?page={0}".format(prev)
+
         prev = str(page - 1)
         prev_url = "/blog?page=" + prev
+        prev_list = list(range(2,20))
+
+        nex = str(page + 1)
+        nex_url = "/blog?page=" + nex
+        last_nex = int((count / limit) + 1)
+        nex_list = list(range(1,last_nex))
+
+
         if page > count / limit:
             self.error(404)
-        else:
-            self.response.write(prev_url)
-            self.render_front(gp = gp, prev_url=prev_url, prev=prev)
+
+        # self.response.write(self.request.url)
+        self.render_front(gp = gp, prev_url=prev_url,
+            prev_list=prev_list, page=page, nex_url=nex_url,
+            nex_list=nex_list, last_nex=last_nex)
 
 class NewPost(MainHandler):
     def render_newpost(self, title="", blog="", error=""):

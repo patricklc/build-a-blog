@@ -5,6 +5,10 @@
     </head>
 
     <style type = "text/css">
+        .white {
+            color: white;
+        }
+
         ul {
             margin-left: -40px;
         }
@@ -81,10 +85,10 @@
     </style>
         <body>
         <ul>
-            <li class = "nav"><a href="/blog">home</a></li>
+            <li class = "nav"><a href="/blog?page=1">home</a></li>
             <li class = "nav"><a href="/newpost"><p class="nav">new post</a></li>
         </ul>
-            <h1>blog!</h1>
+            <h1>Patrick's &lt;blog/&gt;</h1>
             {% block content %}
             {% endblock %}
         </body>
