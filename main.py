@@ -61,7 +61,6 @@ class MainPage(MainHandler):
                     nex_url=nex_url, nex_list=nex_list, last_nex=last_nex)
 
     def get(self):
-        # url = self.request.url
         url = self.request.url
         n = url[-1]
         page = ""
@@ -70,8 +69,6 @@ class MainPage(MainHandler):
         else:
             page = int(1)
 
-        # if url == "http://localhost:9080/blog":
-        #     self
         limit = 5
         offset = (page - 1) * limit
         count = Posting.all().count()
@@ -90,7 +87,6 @@ class MainPage(MainHandler):
         if page > count / limit:
             self.error(404)
 
-        # self.response.write(self.request.url)
         self.render_front(gp = gp, prev_url=prev_url,
             prev_list=prev_list, page=page, nex_url=nex_url,
             nex_list=nex_list, last_nex=last_nex)
@@ -115,8 +111,6 @@ class NewPost(MainHandler):
             self.render_newpost(title, blog, error)
 
 class ViewPostHandler(webapp2.RequestHandler):
-    # def render_plnk(self, title="", blog="", p=""):
-    #     self.render("plink.html", title=title, blog=blog, p=p)
 
     def get(self, id):
         p = Posting.get_by_id(int(id))
